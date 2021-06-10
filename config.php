@@ -23,4 +23,10 @@ define('PLUGIN_PASSWD_LDAP_BIND_PW', "");
 /** Set to true if you login with username@tenantname **/
 define('PLUGIN_PASSWD_LOGIN_WITH_TENANT', false);
 
+/** Set to user login attribute **/
+define('PLUGIN_PASSWD_LDAP_USER_LOGIN_ATTR', 'sAMAccountName');
+
+/** Ldap filter used to search valid users **/
+define('PLUGIN_PASSWD_LDAP_FILTER', "(objectClass=person)");
+
 ?>
