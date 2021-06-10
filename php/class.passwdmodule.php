@@ -139,28 +139,14 @@ class PasswdModule extends Module
                                                 if ($msg === "passwordchanged") {
                                                         // password changed successfully
 
-                                                        // write new password to session because we don't want user to re-authenticate
-                                                        session_start();
-                                                        // if user has openssl module installed
-                                                        if(function_exists("openssl_encrypt")) {
-                                                                // In PHP 5.3.3 the iv parameter was added
-                                                                if(version_compare(phpversion(), "5.3.3", "<")) {
-                                                                        $_SESSION['password'] = openssl_encrypt($passwd,"des-ede3-cbc",PASSWORD_KEY,0);
-                                                                } else {
-                                                                        $_SESSION['password'] = openssl_encrypt($passwd,"des-ede3-cbc",PASSWORD_KEY,0,PASSWORD_IV);
-                                                                }
-                                                        }
-                                                        else {
-                                                                $_SESSION['password'] = $passwd;
-                                                        }
-                                                        session_write_close();
-
                                                         // send feedback to client
                                                         $this->sendFeedback(true, array(
                                                                 'info' => array(
                                                                         'display_message' => dgettext("plugin_passwd", 'Password is changed successfully.')
                                                                 )
                                                         ));
+                                                        WebAppSession::getInstance()->destroy();
+                                                        header("Location: /");
                                                 } else {
                                                         $errorMessage = dgettext("plugin_passwd", 'Password is not changed. Error: ' . $msg);
                                                 }
